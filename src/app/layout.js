@@ -1,7 +1,7 @@
 'use client'
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+// import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
 // import { BsHouseDoor, BsFillBriefcaseFill, BsGear, BsQuestionCircle } from "react-icons/bs";
 

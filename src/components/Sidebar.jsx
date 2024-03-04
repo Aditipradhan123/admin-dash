@@ -11,7 +11,7 @@ const sidebarItems = [
   },
   {
     name: "Project",
-    href: "/project",
+    href: "/project",   
     icon: BiDetail,
     subItems: [
       {

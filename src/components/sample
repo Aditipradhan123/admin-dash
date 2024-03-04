@@ -1,8 +1,7 @@
 'use client'
 // import Link from 'next/link'
 // import { useState } from 'react';
-import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser, BiLogIn } from "react-icons/bi";
-import { BsPersonPlus } from "react-icons/bs";
+import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser, BiUserPlus, BiLogIn, BiChevronRight } from "react-icons/bi";
 import { usePathname } from "next/navigation";
 
 const sidebarItems = [
@@ -54,7 +53,7 @@ const sidebarItems = [
   {
     name: "Register",
     href: "/register",
-    icon: BsPersonPlus
+    icon: BiUserPlus
   },
   {
     name: "Login",
@@ -63,18 +62,18 @@ const sidebarItems = [
   },
 ]
 
-const Sidebar = ({isMenuOpen}) => {
+const Sidebar = () => {
   const pathname =usePathname()
   return (
-    <aside className="fixed h-screen bg-black mt-14 p-4">
+    <aside className="fixed h-screen bg-black mt-12 p-4">
     <ul  className=" text-gray-200">
       {sidebarItems.map(({ name, href, icon: Icon, subItems}) => (
       <li key={name} className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${pathname === href ? 'bg-gray-700 ' : 'hover:bg-gray-700'}
       `}>
-        <span >
-          <Icon size={24} />
+        <span>
+          <Icon size={20} />
         </span>
-        <span className={`w-52 ml-3  ${!isMenuOpen ? 'hidden' : 'block'}`}>{name}</span>
+        <span className='w-52 ml-3'>{name}</span>
       </li>
       ))}
     </ul>

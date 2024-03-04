@@ -1,46 +1,130 @@
+'use client'
+import Link from 'next/link'
 import { useState } from 'react';
+import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser, BiUserPlus, BiLogIn, BiChevronRight } from "react-icons/bi";
+
+const sidebarItems = [
+  {
+    name: "Dashboard",
+    href: "/",
+    icon: BiSolidDashboard
+  },
+  {
+    name: "Project",
+    href: "/project",
+    icon: BiDetail,
+    subItems: [
+      {
+        name: "All",
+        href: "/all"
+      },
+      {
+        name: "New",
+        href: "/new"
+      }
+    ]
+  },
+  {
+    name: "Career",
+    href: "/career",
+    icon: BiSolidBriefcase,
+    subItems: [
+      {
+        name: "All",
+        href: "/all"
+      },
+      {
+        name: "New",
+        href: "/new"
+      }
+    ]
+  },
+  {
+    name: "My Task",
+    href: "/mytask",
+    icon: BiTask
+  },
+  {
+    name: "Profile",
+    href: "/profile",
+    icon: BiUser
+  },
+  {
+    name: "Register",
+    href: "/",
+    icon: BiUserPlus
+  },
+  {
+    name: "Login",
+    href: "/",
+    icon: BiLogIn
+  },
+]
 
 const Sidebar = () => {
+  const [isProjectOpen, setProjectOpen] = useState(false);
+  const [isCareerOpen, setCareerOpen] = useState(false);
+  
+  const handleProjectClick = () => {
+    setProjectOpen(!isProjectOpen);
+    if (!isProjectOpen) {
+      setCareerOpen(false); // Close Career subitem when Project is opened
+    }
+  };
 
+  const handleCareerClick = () => {
+    setCareerOpen(!isCareerOpen);
+    if (!isCareerOpen) {
+      setProjectOpen(false); // Close Project subitem when Career is opened
+    }
+  };
+  
   return (
     <div>
-      <aside className='bg-black text-gray-300 w-80 h-screen mt-16 p-4 transition-all'>
+    <aside className='bg-black text-gray-300 w-80 h-screen mt-16 p-4 transition-all'>
 
-        <ul className='list-none flex flex-col'>
-          {sidebarItems.map(({ name, href, icon: Icon, subItems }) => (
-            <li className='sidebar_item' key={name}>
-              <a
-                href={href}
-                className={`flex gap-2 py-3 px-4 mb-4 rounded-xl bg-gray-800 ${
+      <ul className='list-none flex flex-col'>
+        {sidebarItems.map(({ name, href, icon: Icon, subItems}) => (
+          <li className='text-white' key={name}>
+            <Link href={href}
+              className={`flex gap-2 py-3 px-4 mb-4 rounded-xl bg-gray-800 ${
                   subItems ? 'cursor-pointer' : ''
                 }`}
-                onClick={() => subItems && setProjectOpen(!isProjectOpen)}
-              >
+              onClick={() => {
+                if (subItems && name === 'Project') {
+                  handleProjectClick();
+                } else if (subItems && name === 'Career') {
+                  handleCareerClick();
+                }
+              }}>
                 <span>
                   <Icon size={20} />
                 </span>
-                <span className='sidebar_name font-sans text-sm'>{name}</span>
-              </a>
-              {isProjectOpen && subItems && (
+                <span className='font-sans text-sm'>{name}</span>
+                {subItems && (
+                  <span>
+                    <BiChevronRight size={20} />
+                  </span>
+                )}
+            </Link>
+            {(name === 'Project' && isProjectOpen) || (name === 'Career' && isCareerOpen) ? (
                 <ul className='list-none'>
-                  {subItems.map(({ name: subName, href: subHref, icon: SubIcon }) => (
+                  {subItems.map(({ name: subName, href: subHref }) => (
                     <li className='ml-8' key={subName}>
-                      <a href={subHref} className='flex gap-2 py-3 px-4 mb-4 rounded-xl bg-gray-800'>
-                        <span>
-                          <SubIcon size={20} />
-                        </span>
-                        <span className='sidebar_name font-sans text-sm'>{subName}</span>
-                      </a>
+                      <Link href={subHref} className='flex gap-2 py-3 px-4 mb-4 rounded-xl bg-gray-800'>
+                        <span className='font-sans text-sm'>{subName}</span>
+                      </Link>
                     </li>
                   ))}
                 </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      </aside>
+              ) : null}
+          </li>
+        ))}
+      </ul>
+    </aside>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+
+export default Sidebar

@@ -1,7 +1,6 @@
-'use client'
-// import Link from 'next/link'
-// import { useState } from 'react';
-import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser, BiUserPlus, BiLogIn, BiChevronRight } from "react-icons/bi";
+import { useState } from 'react';
+import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser, BiLogIn } from "react-icons/bi";
+import { BsPersonPlus } from "react-icons/bs";
 import { usePathname } from "next/navigation";
 
 const sidebarItems = [
@@ -53,7 +52,7 @@ const sidebarItems = [
   {
     name: "Register",
     href: "/register",
-    icon: BiUserPlus
+    icon: BsPersonPlus
   },
   {
     name: "Login",
@@ -62,24 +61,44 @@ const sidebarItems = [
   },
 ]
 
-const Sidebar = () => {
-  const pathname =usePathname()
+const Sidebar = ({isMenuOpen}) => {
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const pathname = usePathname();
+
+  const handleDropdown = (index) => {
+    setOpenDropdown(index === openDropdown ? null : index);
+  };
+
   return (
-    <aside className="fixed h-screen bg-black mt-12 p-4">
-    <ul  className=" text-gray-200">
-      {sidebarItems.map(({ name, href, icon: Icon, subItems}) => (
-      <li key={name} className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${pathname === href ? 'bg-gray-700 ' : 'hover:bg-gray-700'}
-      `}>
-        <span>
-          <Icon size={20} />
-        </span>
-        <span className='w-52 ml-3'>{name}</span>
-      </li>
-      ))}
-    </ul>
+    <aside className="fixed h-screen bg-black mt-14 p-4">
+      <ul className="text-gray-200">
+        {sidebarItems.map(({ name, href, icon: Icon, subItems }, index) => (
+          <li key={name} className={`relative ${subItems ? 'group' : ''}`}>
+            <div
+              className={`flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${
+                pathname === href ? 'bg-gray-700' : 'hover:bg-gray-700'
+              }`}
+              onClick={() => subItems && handleDropdown(index)}
+            >
+              <span>
+                <Icon size={24} />
+              </span>
+              <span className={`w-52 ml-3 ${!isMenuOpen ? 'hidden' : 'block'}`}>{name}</span>
+            </div>
+            {subItems && openDropdown === index && (
+              <ul className="absolute left-full top-0 mt-0 bg-gray-700">
+                {subItems.map(({ name: subName, href: subHref }) => (
+                  <li key={subName} className="py-2 px-4 hover:bg-gray-600">
+                    <a href={subHref}>{subName}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
     </aside>
-  )
-}
+  );
+};
 
-
-export default Sidebar
+export default Sidebar;

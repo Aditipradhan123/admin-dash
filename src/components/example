@@ -1,7 +1,9 @@
 'use client'
-import Link from 'next/link'
-import { useState } from 'react';
-import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser, BiUserPlus, BiLogIn, BiChevronRight } from "react-icons/bi";
+// import Link from 'next/link'
+// import { useState } from 'react';
+import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser, BiLogIn } from "react-icons/bi";
+import { BsPersonPlus } from "react-icons/bs";
+import { usePathname } from "next/navigation";
 
 const sidebarItems = [
   {
@@ -51,78 +53,32 @@ const sidebarItems = [
   },
   {
     name: "Register",
-    href: "/",
-    icon: BiUserPlus
+    href: "/register",
+    icon: BsPersonPlus
   },
   {
     name: "Login",
-    href: "/",
+    href: "/login",
     icon: BiLogIn
   },
 ]
 
-const Sidebar = () => {
-  const [isProjectOpen, setProjectOpen] = useState(false);
-  const [isCareerOpen, setCareerOpen] = useState(false);
-  
-  const handleProjectClick = () => {
-    setProjectOpen(!isProjectOpen);
-    if (!isProjectOpen) {
-      setCareerOpen(false); // Close Career subitem when Project is opened
-    }
-  };
-
-  const handleCareerClick = () => {
-    setCareerOpen(!isCareerOpen);
-    if (!isCareerOpen) {
-      setProjectOpen(false); // Close Project subitem when Career is opened
-    }
-  };
-  
+const Sidebar = ({isMenuOpen}) => {
+  const pathname =usePathname()
   return (
-    <div>
-    <aside className='bg-black text-gray-300 w-80 h-screen mt-16 p-4 transition-all'>
-
-      <ul className='list-none flex flex-col'>
-        {sidebarItems.map(({ name, href, icon: Icon, subItems}) => (
-          <li className='text-white' key={name}>
-            <Link href={href}
-              className={`flex gap-2 py-3 px-4 mb-4 rounded-xl bg-gray-800 ${
-                  subItems ? 'cursor-pointer' : ''
-                }`}
-              onClick={() => {
-                if (subItems && name === 'Project') {
-                  handleProjectClick();
-                } else if (subItems && name === 'Career') {
-                  handleCareerClick();
-                }
-              }}>
-                <span>
-                  <Icon size={20} />
-                </span>
-                <span className='font-sans text-sm'>{name}</span>
-                {subItems && (
-                  <span>
-                    <BiChevronRight size={20} />
-                  </span>
-                )}
-            </Link>
-            {(name === 'Project' && isProjectOpen) || (name === 'Career' && isCareerOpen) ? (
-                <ul className='list-none'>
-                  {subItems.map(({ name: subName, href: subHref }) => (
-                    <li className='ml-8' key={subName}>
-                      <Link href={subHref} className='flex gap-2 py-3 px-4 mb-4 rounded-xl bg-gray-800'>
-                        <span className='font-sans text-sm'>{subName}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-          </li>
-        ))}
-      </ul>
+    <aside className="fixed h-screen bg-black mt-14 p-4">
+    <ul  className=" text-gray-200">
+      {sidebarItems.map(({ name, href, icon: Icon, subItems}) => (
+      <li key={name} className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${pathname === href ? 'bg-gray-700 ' : 'hover:bg-gray-700'}
+      `}>
+        <span >
+          <Icon size={24} />
+        </span>
+        <span className={`w-52 ml-3  ${!isMenuOpen ? 'hidden' : 'block'}`}>{name}</span>
+      </li>
+      ))}
+    </ul>
     </aside>
-    </div>
   )
 }
 

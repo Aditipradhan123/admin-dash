@@ -12,9 +12,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <div className="flex min-h-screen">
-          <Navbar />
-          {/* <Sidebar /> */}
+          <Navbar>
+          <div className="flex items-center justify-between p-24 w-full">
           {children}
+          </div>
+          </Navbar>
         </div>
       </body>
     </html>

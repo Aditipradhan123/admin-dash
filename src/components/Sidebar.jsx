@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser, BiLogIn } from "react-icons/bi";
+import { BiSolidDashboard, BiDetail, BiSolidBriefcase, BiTask, BiUser } from "react-icons/bi";
 import { BsPersonPlus } from "react-icons/bs";
 import { usePathname } from "next/navigation";
+import { FiLogIn } from "react-icons/fi";
+import Link from 'next/link';
 
 const sidebarItems = [
   {
@@ -11,16 +13,16 @@ const sidebarItems = [
   },
   {
     name: "Project",
-    href: "/project",   
+    href: "/projects",
     icon: BiDetail,
     subItems: [
       {
         name: "All",
-        href: "/all"
+        href: "/projects"
       },
       {
         name: "New",
-        href: "/new"
+        href: "/projects/new"
       }
     ]
   },
@@ -31,11 +33,11 @@ const sidebarItems = [
     subItems: [
       {
         name: "All",
-        href: "/all"
+        href: "/career"
       },
       {
         name: "New",
-        href: "/new"
+        href: "/newcareer"
       }
     ]
   },
@@ -57,13 +59,13 @@ const sidebarItems = [
   {
     name: "Login",
     href: "/login",
-    icon: BiLogIn
+    icon: FiLogIn
   },
 ]
 
-const Sidebar = ({isMenuOpen}) => {
+const Sidebar = ({ isMenuOpen }) => {
   const [openDropdown, setOpenDropdown] = useState(null);
-  const pathname = usePathname();
+  const pathName = usePathname();
 
   const handleDropdown = (index) => {
     setOpenDropdown(index === openDropdown ? null : index);
@@ -73,25 +75,25 @@ const Sidebar = ({isMenuOpen}) => {
     <aside className="fixed h-screen bg-black mt-14 p-4">
       <ul className="text-gray-200">
         {sidebarItems.map(({ name, href, icon: Icon, subItems }, index) => (
-          <li key={name} className={`relative ${subItems ? 'group' : ''}`}>
-            <div
-              className={`flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${
-                pathname === href ? 'bg-gray-700' : 'hover:bg-gray-700'
-              }`}
+          <li key={name}>
+            <Link href={href}
+              className={`flex h-full items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${pathName === href ? 'bg-gray-700' : 'hover:bg-gray-700'
+                }`}
               onClick={() => subItems && handleDropdown(index)}
             >
               <span>
                 <Icon size={24} />
               </span>
               <span className={`w-52 ml-3 ${!isMenuOpen ? 'hidden' : 'block'}`}>{name}</span>
-            </div>
+            </Link>
             {subItems && openDropdown === index && (
-              <ul className="">
+              <ul className="text-center">
                 {subItems.map(({ name: subName, href: subHref }) => (
-                  <li key={subName} className={`flex text-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${
-                    pathname === subHref ? 'bg-gray-700' : 'hover:bg-gray-700'
-                  }`}>
-                    <span>{subName}</span>
+                  <li key={subName} >
+                    <Link href={subHref}  className={`flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${ subHref === pathName ? 'bg-gray-700' : 'hover:bg-gray-700'
+                    }`}>
+                      <span className=''>{subName}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>

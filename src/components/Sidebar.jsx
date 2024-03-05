@@ -72,27 +72,27 @@ const Sidebar = ({ isMenuOpen }) => {
   };
 
   return (
-    <aside className="fixed h-screen bg-black mt-14 p-4">
+    <aside className={`fixed h-screen bg-black ${isMenuOpen ? 'w-80' : 'w-16'} mt-14 p-2 overflow-y-auto`}>
       <ul className="text-gray-200">
         {sidebarItems.map(({ name, href, icon: Icon, subItems }, index) => (
           <li key={name}>
             <Link href={href}
-              className={`flex h-full items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${pathName === href ? 'bg-gray-700' : 'hover:bg-gray-700'
+              className={`flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${pathName === href ? 'bg-gray-700' : 'hover:bg-gray-700'
                 }`}
               onClick={() => subItems && handleDropdown(index)}
             >
               <span>
                 <Icon size={24} />
               </span>
-              <span className={`w-52 ml-3 ${!isMenuOpen ? 'hidden' : 'block'}`}>{name}</span>
+              <span className={`ml-3 ${!isMenuOpen ? 'hidden' : 'block'}`}>{name}</span>
             </Link>
             {subItems && openDropdown === index && (
-              <ul className="text-center">
+              <ul>
                 {subItems.map(({ name: subName, href: subHref }) => (
                   <li key={subName} >
                     <Link href={subHref}  className={`flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${ subHref === pathName ? 'bg-gray-700' : 'hover:bg-gray-700'
                     }`}>
-                      <span className=''>{subName}</span>
+                      <span className='text-center'>{subName}</span>
                     </Link>
                   </li>
                 ))}

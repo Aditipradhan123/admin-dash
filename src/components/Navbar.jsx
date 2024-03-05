@@ -13,11 +13,11 @@ const Navbar = () => {
   };
   return (
     <div>
-    <nav className='fixed bg-black text-gray-300 w-full h-16 shadow-2xl pt-3 pl-4 z-10'>
+    <nav className='fixed bg-black text-gray-300 w-screen h-16 shadow-2xl pt-3 pl-4 z-10'>
         <div className='sidebar_top flex gap-4 text-xl uppercase font-sans items-center'>
         <Image alt='' src='/logo.png' width={35} height={35} />
-        <span>Admin</span>
-        <button className='p-1 ml-36 rounded-lg' onClick={handleMenuToggle}>
+        <span className='mr-4 lg:mr-16 xl:mr-4'>Admin</span>
+        <button className='p-1 ml-96 lg:ml-32 m:ml-40 rounded-lg' onClick={handleMenuToggle}>
         <AiOutlineMenu size={32}  />
         </button>
       </div>
